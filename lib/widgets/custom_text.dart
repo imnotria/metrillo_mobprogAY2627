@@ -1,13 +1,13 @@
 import 'package:material_ui/material_ui.dart';
 
 class CustomText extends StatelessWidget {
-  const CustomText(
-    {super.key,
+  const CustomText({
+    super.key,
     required this.text,
     required this.fontSize,
     required this.color,
-    this.fontFamily = 'frutiger',
-    this.FontWeight = FontWeight.normal,
+    this.fontFamily = 'Frutiger',
+    this.fontWeight = FontWeight.normal,
     this.textAlign = TextAlign.left,
     this.letterSpacing = 0,
     this.fontStyle = FontStyle.normal,
@@ -20,6 +20,7 @@ class CustomText extends StatelessWidget {
   final TextAlign textAlign;
   final String fontFamily;
   final FontStyle fontStyle;
+
   @override
   Widget build(BuildContext context) {
     return Text(
@@ -31,7 +32,7 @@ class CustomText extends StatelessWidget {
         color: color,
         fontWeight: fontWeight,
         fontStyle: fontStyle,
-        letterSpacing: letterSpacing
+        letterSpacing: letterSpacing,
       ),
     );
   }

@@ -1,119 +1,184 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants.dart';
-import 'custom_font.dart';
+import 'button.dart';
+import 'custom_text.dart';
 
 class NewsFeedCard extends StatelessWidget {
   final String userName;
   final String postContent;
   final String date;
-  final String numOfLikes;
+  final int numOfLikes;
   final bool hasImage;
+  final String? imagePath;   // e.g. 'assets/images/post1.jpg' (optional)
+  final String? avatarPath;  // e.g. 'assets/images/avatar.jpg' (optional)
+
   const NewsFeedCard({
     super.key,
     required this.userName,
     required this.postContent,
-    this.numOfLikes = '0',
-    this.hasImage = false,
     required this.date,
+    this.numOfLikes = 0,
+    this.hasImage = false,
+    this.imagePath,
+    this.avatarPath,
   });
+
+  // Enhancement 2: avatar widget (image if given, person icon otherwise)
+  Widget _buildAvatar() {
+    return CircleAvatar(
+      radius: ScreenUtil().setWidth(18),
+      backgroundColor: Colors.grey[300],
+      backgroundImage: avatarPath != null ? AssetImage(avatarPath!) : null,
+      child: avatarPath == null
+          ? const Icon(Icons.person, color: Colors.black54)
+          : null,
+    );
+  }
+
+  // Enhancement 1: dynamic post image
+  Widget _buildPostImage() {
+    if (!hasImage) return const SizedBox.shrink();
+
+    final double height = ScreenUtil().setHeight(250);
+
+    if (imagePath == null) {
+      return SizedBox(
+        height: height,
+        width: double.infinity,
+        child: const Placeholder(),
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(ScreenUtil().setSp(8)),
+      child: Image.asset(
+        imagePath!,
+        width: double.infinity,
+        height: height,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => SizedBox(
+          height: height,
+          width: double.infinity,
+          child: const Placeholder(),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(ScreenUtil().setSp(10)),
-      child: padding(
+      child: Padding(
         padding: EdgeInsets.all(ScreenUtil().setSp(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icons(Icons.person),
-                SizedBox(
-                  width: ScreenUtil().setSp(10),
-                ),
+                _buildAvatar(),
+                SizedBox(width: ScreenUtil().setWidth(10)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomFont(
+                    CustomText(
                       text: userName,
                       fontSize: ScreenUtil().setSp(15),
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(3),
-                    ),
-                    Icon(
-                      Icons.public,
-                      color: Colors.grey,
-                      size: ScreenUtil().setSp(15),
+                    Row(
+                      children: [
+                        CustomText(
+                          text: date,
+                          fontSize: ScreenUtil().setSp(12),
+                          color: Colors.grey,
+                        ),
+                        SizedBox(width: ScreenUtil().setWidth(3)),
+                        Icon(
+                          Icons.public,
+                          color: Colors.grey,
+                          size: ScreenUtil().setSp(15),
+                        ),
+                      ],
                     ),
                   ],
                 ),
+                const Spacer(),
+                const Icon(Icons.more_horiz),
               ],
             ),
-            Spacer(),
-            Icon(icons.more_horiz),
-          ],
-        ),
-        
-        SizedBox(height: ScreenUtil().setHeight(5)),
 
-        CustomFont(
-          text: postContent,
-          fontSize: ScreenUtil().setSp(12),
-          color: Colors.black,
-        ),
-        SizedBox(height: ScreenUtil().setHeight(5)),
-        hasImage == true
-        ? const Placeholder()
-        : SizedBox(
-          height: ScreenUtil().setHeight(1),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Textbutton.icon(
-              onPressed: () {
-                print('Liked");
-                },
-                icon: const Icon(
-                Icons.thumb_up,
-                color: FB_DARK_PRIMARY,
+            SizedBox(height: ScreenUtil().setHeight(5)),
+
+            // Post content
+            CustomText(
+              text: postContent,
+              fontSize: ScreenUtil().setSp(12),
+              color: Colors.black,
+            ),
+
+            SizedBox(height: ScreenUtil().setHeight(5)),
+
+            // Post image (only if hasImage == true)
+            _buildPostImage(),
+
+            // Action buttons (Enhancement 3)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                LikeButton(initialLikes: numOfLikes),
+                ActionButton(
+                  icon: Icons.comment,
+                  label: 'Comment',
+                  onPressed: () {},
                 ),
-                label: CustomFont(
-                text: numOfLikes.toString(),
-                fontSize: ScreenUtil().serSp(12),
-                color: FB_DARK_PRIMARY,
+                ActionButton(
+                  icon: Icons.redo,
+                  label: 'Share',
+                  onPressed: () {},
                 ),
+              ],
             ),
-            TextButton.icon(
-            onPressed: () {},
-            icon: const Icon(
-            Icons.comment,
-            color: FB_DARK_PRIMARY,
+
+            // Write a comment
+            Row(
+              children: [
+                _buildAvatar(),
+                SizedBox(width: ScreenUtil().setWidth(10)),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.only(left: ScreenUtil().setSp(10)),
+                    alignment: Alignment.centerLeft,
+                    height: ScreenUtil().setHeight(25),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius:
+                          BorderRadius.circular(ScreenUtil().setSp(10)),
+                    ),
+                    child: CustomText(
+                      text: 'Write a comment...',
+                      fontSize: ScreenUtil().setSp(11),
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            label: CustomFont(
-            text: 'Comment',
-            fontSize: Screenutil().setSp(12),
-            color: FB_DARK_PRIMARY,
+
+            SizedBox(height: ScreenUtil().setHeight(10)),
+
+            CustomText(
+              text: 'View comments',
+              fontSize: ScreenUtil().setSp(12),
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
-          ),
-          TextButton.icon(
-          onPressed: () {},
-          icon: const Icon(
-          Icons.redo,
-          color: FB_DARK_PRIMARY,
-          ),
-          label: CustomFont(
-          text: 'share',
-          fontSize: ScreenUtil().setSp(12),
-          color: FB_DARK_PRIMARY,
-          ),
-          ),
           ],
-          ),
-          
+        ),
+      ),
+    );
+  }
+}
