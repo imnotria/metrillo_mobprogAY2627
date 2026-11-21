@@ -9,8 +9,8 @@ class NewsFeedCard extends StatelessWidget {
   final String date;
   final int numOfLikes;
   final bool hasImage;
-  final String? imagePath;   // e.g. 'assets/images/post1.jpg' (optional)
-  final String? avatarPath;  // e.g. 'assets/images/avatar.jpg' (optional)
+  final String? imagePath;
+  final String? avatarPath;
 
   const NewsFeedCard({
     super.key,
@@ -23,7 +23,7 @@ class NewsFeedCard extends StatelessWidget {
     this.avatarPath,
   });
 
-  // Enhancement 2: avatar widget (image if given, person icon otherwise)
+  // Enhancement 2: avatar widget
   Widget _buildAvatar() {
     return CircleAvatar(
       radius: ScreenUtil().setWidth(18),

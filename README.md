@@ -1,3 +1,5 @@
-# metrillo_mobprog
+Discussion:
 
-A new Flutter project.
+To integrate the image into newsfeed_card.dart, I added two optional properties to the NewsFeedCard widget: hasImage, which defaults to false, and imagePath. I also created a helper method, _buildPostImage(), and called it in the build method between the post content and the action buttons.
+To make it dynamic, the helper checks hasImage first. If it is false, it returns SizedBox.shrink(), so the post shows no image and takes up no space. If it is true and no imagePath is given, it shows a Placeholder. If an imagePath is given, it shows the picture using Image.asset with BoxFit.cover, and an errorBuilder falls back to the Placeholder if the file can't be loaded.
+Because of this, the same NewsFeedCard can be reused for every post. In newsfeed_screen.dart, the first post has no image, while the second sets hasImage: true and shows the image area.

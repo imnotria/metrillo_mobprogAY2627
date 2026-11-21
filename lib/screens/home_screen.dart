@@ -25,12 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
+        titleSpacing: ScreenUtil().setWidth(16),
         shadowColor: FB_TEXT_COLOR_WHITE,
         elevation: 2,
         title: CustomText(
           text: 'facebook',
           fontSize: ScreenUtil().setSp(25),
           color: FB_PRIMARY,
+          fontWeight: FontWeight.bold,
           fontFamily: 'Klavika',
         ),
       ),
