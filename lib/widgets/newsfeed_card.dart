@@ -11,6 +11,8 @@ class NewsFeedCard extends StatelessWidget {
   final bool hasImage;
   final String? imagePath;
   final String? avatarPath;
+  // Profile photo of the Facebook account owner (the one writing comments)
+  final String ownerAvatarPath;
 
   const NewsFeedCard({
     super.key,
@@ -21,21 +23,25 @@ class NewsFeedCard extends StatelessWidget {
     this.hasImage = false,
     this.imagePath,
     this.avatarPath,
+    this.ownerAvatarPath = 'assets/images/donkey.jpeg',
   });
 
-  // Enhancement 2: avatar widget
-  Widget _buildAvatar() {
+  Widget _buildAvatar(String? path) {
     return CircleAvatar(
       radius: ScreenUtil().setWidth(18),
       backgroundColor: Colors.grey[300],
-      backgroundImage: avatarPath != null ? AssetImage(avatarPath!) : null,
-      child: avatarPath == null
+      backgroundImage: path != null ? AssetImage(path) : null,
+      onBackgroundImageError: path != null
+          ? (exception, stackTrace) {
+              debugPrint('Failed to load avatar ($path): $exception');
+            }
+          : null,
+      child: path == null
           ? const Icon(Icons.person, color: Colors.black54)
           : null,
     );
   }
 
-  // Enhancement 1: dynamic post image
   Widget _buildPostImage() {
     if (!hasImage) return const SizedBox.shrink();
 
@@ -74,11 +80,11 @@ class NewsFeedCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
+            // Post author header (keeps monkey.jpg from avatarPath)
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                _buildAvatar(),
+                _buildAvatar(avatarPath),
                 SizedBox(width: ScreenUtil().setWidth(10)),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +130,7 @@ class NewsFeedCard extends StatelessWidget {
 
             _buildPostImage(),
 
-            // Action buttons (Enhancement 3)
+            // Action buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -142,10 +148,10 @@ class NewsFeedCard extends StatelessWidget {
               ],
             ),
 
-            // Write a comment
+            // Write a comment (uses ownerAvatarPath -> donkey.jpeg)
             Row(
               children: [
-                _buildAvatar(),
+                _buildAvatar(ownerAvatarPath),
                 SizedBox(width: ScreenUtil().setWidth(10)),
                 Expanded(
                   child: Container(
