@@ -1,7 +1,0 @@
-  fonts:
-    - family: Klavika
-      fonts:
-        - asset: assets/fonts/KlavikaBoldBold.otf
-    - family: Frutiger
-      fonts:
-        - asset: assets/fonts/FrutigerLTStd-Roman.otf

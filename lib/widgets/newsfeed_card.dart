@@ -122,7 +122,6 @@ class NewsFeedCard extends StatelessWidget {
 
             SizedBox(height: ScreenUtil().setHeight(5)),
 
-            // Post image (only if hasImage == true)
             _buildPostImage(),
 
             // Action buttons (Enhancement 3)
