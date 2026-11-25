@@ -2,8 +2,13 @@
 
 import 'package:material_ui/material_ui.dart';
 
-const Color FB_PRIMARY = Color(0xFF0167f8);
-const Color FB_SECONDARY = Color(0xFF003bb3);
-const Color FB_DARK_PRIMARY = Color(0xFF021452);
-const Color FB_LIGHT_PRIMARY = Color(0xFF74b7fb);
-const Color FB_TEXT_COLOR_WHITE = Color(0xFFe0f0fd);
+// Enhancement 4: own app name
+const String APP_NAME = 'Mwehehehe';
+
+// Enhancement 5: custom color palette (violet)
+// Constant names are kept so existing widgets (button, newsfeed_card) still compile.
+const Color FB_PRIMARY = Color(0xFF7C3AED);
+const Color FB_SECONDARY = Color(0xFF4C1D95);
+const Color FB_DARK_PRIMARY = Color(0xFF2E1065);
+const Color FB_LIGHT_PRIMARY = Color(0xFFA78BFA);
+const Color FB_TEXT_COLOR_WHITE = Color(0xFFF5F3FF);

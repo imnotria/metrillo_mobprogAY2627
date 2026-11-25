@@ -1,12 +1,13 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'constants.dart';
 import 'screens/home_screen.dart';
 import 'screens/newsfeed_screen.dart';
 
-void main() => runApp(const RoblesFacebook());
+void main() => runApp(const KwentuhanApp());
 
-class RoblesFacebook extends StatelessWidget {
-  const RoblesFacebook({super.key});
+class KwentuhanApp extends StatelessWidget {
+  const KwentuhanApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class RoblesFacebook extends StatelessWidget {
       builder: (_, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Facebook Replication',
+          title: APP_NAME, // Enhancement 4
           initialRoute: '/home',
           routes: {
             '/newsfeed': (context) => const NewsFeedScreen(),
